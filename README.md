@@ -1,1 +1,1 @@
-# tex-notes
+# Summarised Notes in tex format

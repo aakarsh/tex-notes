@@ -43,9 +43,10 @@ bower_components
 
 Makefile~
 misc~
-res.aux
-res.cls
-res.dvi
+*.aux
+*.cls
+*.dvi
+*.pdf
 log
 tex~
 scratch

@@ -1,0 +1,1245 @@
+% This is the authoritative version (the one at PARC)
+%\documentstyle[11pt,avm,lingmacros,samesizesectionfont,tree]{article}
+\documentstyle[11pt,avm,lingmacros,avm-doc,tree-dvips]{article}
+
+% To do:
+%	Get it so you can embed avm environments DONE
+%	Put example of subscripted index in      DONE
+%	Document new features. DONE
+%	Work out the semantics of fonts and document it DONE
+%	Fix verbatim in footnote DONE
+%	Fix fonts and descriptions - blows when nested DONE
+%	Change use of boxes to be all even as indicated in plain.tex! DONE
+% 	Get labels on all corners. DONE (except for Jackendoff position).
+%	Fix it so that one can nest with tabular/more avms. DONE
+%	Find out why there is the extra space in tavm.tex @ qW
+%		(this happens only if you define nodes)
+
+\title{{\sf avm.sty}}
+\author{Christopher Manning\\{\ssf manning@csli.stanford.edu}}
+\date{Version 1.00 -- December 12, 1993}
+
+\begin{document}
+\maketitle
+
+\av\ is a \TeX\ macro package that makes it easy to draw attribute-value
+matrices ({\AVM}s, also known as feature structures and signs), things like
+\ex{1}: 
+%
+\begin{example}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]}
+    \setbox2=\hbox{Does this screw it?} % Testing whether this screws things
+ \]}
+\end{avm}
+\end{example}
+%
+It is a special
+mode, like math mode, in which various things are redefined in order to
+make it easy to typeset a certain type of thing.  In fact, \av\
+supports several sub-modes of {\AVM} entry that are tailored to different
+needs.  This document first describes the basic mode of \av\ and then shows
+how the specialized modes deviate from it.  Everything that can be done in
+one of the specialized sub-modes can also be done in the main mode; it's
+just that you might be able to do it with less keystrokes.  \av\ has
+been designed so that it will work with either \TeX\ or \LaTeX; the few
+differences between using these two formats are mentioned at the
+appropriate places below.
+
+\section{Loading this option}
+
+If you are using \LaTeX, \av\ should be included among the other
+document-style options that you load.  For example, you might type
+at the beginning of your document:
+%
+\begin{example}
+\begin{verbatim}
+\documentstyle[11pt,avm,lingmacros]{article}
+\end{verbatim}
+\end{example}
+
+In \TeX, you input the file by including the following near the beginning
+of your document:
+\begin{example}
+\begin{verbatim}
+\input avm.sty
+\end{verbatim}
+\end{example}
+Either of these assumes that the file \av\ is somewhere on the search path for
+input files (the TEXINPUTS environment variable).  This search path usually
+includes the current directory.
+
+\section{The `standard' environment}
+
+Most commands (except those that establish defaults) are only available
+within an {\AVM} environment.  To enter and exit this environment, in \LaTeX\
+you type:
+\begin{example}
+\begin{verbatim}
+\begin{avm}
+...
+\end{avm}
+\end{verbatim}
+\end{example}
+while in \TeX\ you type:
+\begin{example}
+\begin{verbatim}
+\avm
+...
+\endavm
+\end{verbatim}
+\end{example}
+
+\subsection{Making AVMs in square brackets}
+
+The commands \verb+\[+ and \verb+\]+ begin and end a square-bracketed {\AVM}.
+Within an {\AVM}, a new line is begun by typing \verb+\\+.\footnote
+  {\TeX\ users can use {\tt \char'134 cr}, if they prefer.  \LaTeX\ users
+   (only!) can follow the {\tt \char'134 \char'134 } with any of the things
+   that can follow {\tt \char'134 \char'134 } in {\tt tabular}
+   environments.  So you can put extra space below one line of an AVM, by
+   typing {\tt \char'134 \char'134 [2ex]}, for example.} 
+It is unnecessary to type \verb+\\+ following the
+last row of the {\AVM}.   Within a line columns are divided by the ampersand
+`\verb+&+'.  There can actually be any number of columns, although in most
+applications of {\AVM}s there are only two.  For example:\footnote
+ {Here is one in a footnote (note the smaller fonts):
+  \begin{example}(i)
+  \begin{avm}
+  \[ ind & \[ pers & 3\\ num & \em sg\\ gend & \em masc\\refind & \@{12} \] \]
+  \end{avm}
+  \end{example}}
+\begin{examples}
+\item
+\begin{avm}
+\[ cat\|subcat & \<NP$_{it}$, NP$_{\@2}$, S[comp]:\@3\> \\
+  content & \[ relation & \bf bother\\
+               bothered & \@2 \\
+               soa-arg & \@3  \] \]
+\end{avm}
+
+\item
+\begin{avm}
+\[ subj & \[ pers & 3	\\
+             num  & sg	\\
+             gend & masc\\
+             pred & \rm `pro' \]\\
+
+   pred & \rm `eat\q<SUBJ, OBJ\q>'\\
+
+   obj  & \[ pers & 3	\\
+             num  & pl	\\
+             gend & fem	\\
+             pred & \rm `pro' \]
+\]
+\end{avm}
+\end{examples}
+
+\begin{examples}
+
+\item
+{\obeyspaces
+\begin{verbatim}
+\begin{avm}
+\[ cat\|subcat & \<NP$_{it}$, NP$_{\@2}$, S[comp]:\@3\> \\
+  content & \[ relation & \bf bother\\
+               bothered & \@2 \\
+               soa-arg & \@3  \] \]
+\end{avm}
+\end{verbatim}}
+
+\item
+{\obeyspaces
+\begin{verbatim}
+\begin{avm}
+\[ subj & \[ pers & 3   \\
+             num  & sg  \\
+             gend & masc\\
+             pred & \rm `pro' \]\\
+   pred & \rm `eat\q<SUBJ, OBJ\q>'\\
+   obj  & \[ pers & 3   \\
+             num  & pl  \\
+             gend & fem \\
+             pred & \rm `pro' \]
+\]
+\end{avm}
+\end{verbatim}}
+\end{examples}
+The underlying environment is based on \TeX's \verb+\halign+ (which also
+underlies \LaTeX's \verb+tabular+ environment), and so the normal
+conventions of these apply.  Note that spaces are ignored on both sides of
+an \verb+&+ or \verb+\\+, as in \LaTeX's \verb+tabular+ environment (but not
+in Plain \TeX's \verb+\halign+).
+
+\subsubsection{When you don't want to align columns}
+
+There are some occasions when you don't want things lined up in columns.  For
+example, with a long HPSG path, we probably want the output to look as in
+\ex{1}[a] not \ex{1}[b].
+\begin{examples}
+\item
+\avmoptions{active}
+\begin{avm}
+[ synsem|local|content\;@2\\
+  qstore\;{ [ det & \rm forall \\
+	     restpar & @2 [para & @1\\
+                           restr & { [ reln & \rm book\\
+					inst & @1 ] } ] ] } ]
+\end{avm}\label{forall}
+
+\item
+\avmoptions{active}
+\begin{avm}
+[ synsem|local|content & @2\\
+  qstore & { [ det & \rm forall \\
+	     restpar & @2 [para & @1\\
+                           restr & { [ reln & \rm book\\
+					inst & @1 ] } ] ] } ]
+\end{avm}
+\end{examples}
+%
+There are several ways to achieve this, which will be presented in order
+from the quick and dirty fix to the best solution.  One way is just to not
+use \verb+&+s.  That way everything will be in one column:
+\begin{examples}
+\item
+\begin{avm}
+\[ short \rm value$_1$ \\
+   extremely-loooooooooong \rm value$_2$ \]
+\end{avm}
+
+\item
+\begin{verbatim}
+\begin{avm}
+\[ short \rm value$_1$ \\
+   extremely-loooooooooong \rm value$_2$ \]
+\end{avm}
+\end{verbatim}
+\end{examples}
+%
+However, the discerning eye will notice that there is then only a normal
+space width between attributes and values, and that looks bad.
+But \av\ defines a command \verb+\;+ analogous to the `thick space' in math
+mode that will put in the normal spacing between attributes and values.  So
+the above example can be improved by typing it as follows.
+\begin{examples}
+\item
+\begin{avm}
+\[ short\; \rm value$_1$ \\
+   extremely-loooooooooong\; \rm value$_3$ \]
+\end{avm}
+
+\item
+\begin{verbatim}
+\begin{avm}
+\[ short\; \rm value$_1$ \\
+   extremely-loooooooooong\; \rm value$_3$ \]
+\end{avm}
+\end{verbatim}
+\end{examples}
+%
+However, to make elegant {\AVM}s it is often the case that you want most
+columns to be lined up, and in this case, you should use \verb+&+ in most
+columns as usual, but make the entire exceptional rows an argument of the
+command \verb+\avmspan+ as shown below:
+\begin{examples}
+\item
+\begin{avm}
+\[ content & \[ reln & \bf cause	\\
+                causer & \@1 \\
+                causee & \@2 \\
+                \avmspan{caused-event\|reln\;\@3} \] \]
+\end{avm}
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\[ content & \[ reln & \bf cause  \\
+                causer & \@1 \\
+                causee & \@2 \\
+                \avmspan{caused-event\|reln\;\@3} \] \]
+\end{avm}
+\end{verbatim}}
+\end{examples}
+
+\subsection{Other types of brackets and braces}
+
+\av\ also provides other types of large extendable braces and brackets.
+One uses \verb+\{+ and \verb+\}+ for curly braces, \verb+\(+ and \verb+\)+
+for round parentheses, \verb+\<+ and \verb+\>+ for angle brackets and
+\verb+\avml+ and \verb+\avmr+ for no brackets at all.  Note that angle
+brackets have a maximum size, though, and are not infinitely stretchable
+like the other types of brackets.  As is usual in
+\TeX, an opening bracket must be matched by a closing bracket, but the two
+need not be of the same sort.  All these commands provide exactly the same
+internal 
+environment as was described above for square brackets (e.g., use of
+\verb+&+ and \verb+\\+), although, in general, these fancier options are
+less used with these types of braces.  Some examples follow (note the
+`misuse' of a 3 column {\AVM} in \ex{1}[c]):
+\begin{examples}
+\item
+\begin{avm}
+\[ qstore & \{ \[ det & \rm the \\
+		  restpar & \[ para & \@1 \\
+			       restr & \{ \[ reln & \rm poss \\
+                                    possessor & \@3 \\
+                                    possessed & \@1\]\}\ \bf union \q\{\@2\q\}
+\] \] \} \]
+\end{avm}		  
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\[qstore & \{ \[det & \rm the \\
+                restpar & \[para & \@1 \\
+                            restr & \{ \[reln & \rm poss \\
+                                 possessor & \@3 \\
+                                 possessed & \@1\]\}\ \bf union \q\{\@2\q\}
+\] \] \} \]
+\end{avm}		  
+\end{verbatim}}
+
+\item
+{\avmfont{}\avmvalfont{}
+\footnotesize\sc
+\begin{avm}
+\avml
+\avml \rm kak\\
+\[subcat \< \[pos&n\\case&nm\\ind&\@1\], \[pos&n\\case&ac\\ind&\@2\] \>\]
+\avmr
+& $\Longrightarrow$ &
+\avml \rm kak-ase\\
+\[subcat \< \[pos&n\\case&nm\\ind&\@3\], \[pos&n\\case&dt\\ind&\@1\],
+            \[pos&n\\case&ac\\ind&\@2\] \>\]
+\avmr \avmr
+\end{avm}
+}
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\avml
+\avml \rm kak\\
+\[subcat \< \[pos&n\\case&nm\\ind&\@1\], \[pos&n\\case&ac\\ind&\@2\] \>\]
+\avmr
+& $\Longrightarrow$ &
+\avml \rm kak-ase\\
+\[subcat \< \[pos&n\\case&nm\\ind&\@3\], \[pos&n\\case&dt\\ind&\@1\],
+            \[pos&n\\case&ac\\ind&\@2\] \>\]
+\avmr \avmr
+\end{avm}
+\end{verbatim}}
+
+\item
+\begin{avm}
+\{ \[ pred & \rm `see\q<girl, Mary\q>' \\
+      subj & \rm `girl' \\
+      obj & \rm `Mary' \] 			\\
+   \[ pred & \rm `heard\q<girl, Bill\q>' \\
+      subj & \rm `girl' \\
+      obj & \rm `Bill' \] 			\}
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\{ \[ pred & \rm `see\q<girl, Mary\q>' \\
+      subj & \rm `girl' \\
+      obj & \rm `Mary' \]                         \\
+   \[ pred & \rm `heard\q<girl, Bill\q>' \\
+      subj & \rm `girl' \\
+      obj & \rm `Bill' \]                         \}
+\end{avm}                 
+\end{verbatim}}
+
+\end{examples}
+
+For normal text size brackets, \verb+[+, \verb+]+, \verb+(+ and \verb+)+
+work in the usual way.  Curly braces and angle brackets can be made
+using the \verb+\q+ (`quote' command), by writing \verb+\q\{+, \verb+\q\}+,
+\verb+\q<+ and \verb+\q>+, as in \ex{0}[b,f].  Or they can
+be made by going into math mode in the usual way.
+
+\subsection{Other features}
+
+\subsubsection{Sort labels}
+
+The commands \verb+\sort+ and \verb+\osort+ put sort labels at the
+corner of any structure.  They differ in that the label of
+\verb+\sort+ takes up space in the column or text where it appears whereas
+\verb+\osort+ overlaps its label into the previous column or text.
+\verb+\osort+ does not check for collisions so you have to use your
+judgment.  For example, (1) was typeset with these commands:
+%
+\begin{example}\label{firstverbatim}
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+        variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+                                           num & \rm sing \\
+                                           gend & \rm neut \]} \\
+        restriction & \osort{psoa}{\[relation & \rm book \\
+                                     instance & \@1 \]} \]} \]}
+\end{avm}
+\end{verbatim}}
+\end{example}
+%
+If one wants (almost) all square-bracketed feature structures sorted,
+it is more convenient to use the sub-mode \verb+sorted+ (see
+Section~\ref{sorted-sec}).   See also Section~\ref{corners} for how to vary
+the sort label position.
+
+\subsubsection{Bars, index boxes, nodes and lines}
+
+The command \verb+\|+ will produce a vertical bar with a
+little space on either side.  The command \verb+\@{...}+ will produce a
+labeled index box, as used in PATR and HPSG.  If the index is a single
+digit, the braces may be omitted.  The \verb+\@+ command only works within
+the {\AVM} environment, but since you often want to refer to index boxes in
+the text of your paper, the additional command \verb+\avmbox{...}+ can be
+used anywhere to draw an index box.
+
+For curved lines connecting {\AVM}s (as widely used in LFG), Emma Pease's
+{\sf tree-dvips.sty} can be used as normal, but \av\ also adds the
+shortcut whereby \verb+\!+ can be used instead of \verb+\node+.
+One often wants these curved lines to connect to a dash or an empty
+feature structure.  So \av\ provides the one-parameter commands
+\verb+\avmd+ and \verb+\avmb+ (for dash and box, respectively), that draw
+such an object and
+label it with their parameter.  These are illustrated below:
+%
+\begin{examples}
+\item
+\nodemargin=0pt
+\begin{avm}
+\[ subj & \!{a}{\[ pred & \rm `pro'\\
+                   num & sg \\
+                   pers & 1 \]}		\\
+   pred & \rm `want\q<\avmd{aa}, \avmd{bb}\ \q>' \\
+   xcomp & \!{b}{\[ pred & \rm `go\q<\avmd{aaaa}\q>' \\
+                    subj & \avmb{aaa} \]} \]
+\end{avm}
+\nodecurve[r]{a}[t]{aa}{.3in}[.2in] % was .4
+\nodecurve[b]{aa}[t]{aaaa}{.2in}
+\nodecurve[r]{aaa}[b]{aaaa}{.25in} % was .15
+\nodecurve[r]{bb}[r]{b}{.5in}[.5in]
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\[ subj & \!{a}{\[ pred & \rm `pro'\\
+                   num & sg \\
+                   pers & 1 \]}		\\
+   pred & \rm `want\q<\avmd{aa}, \avmd{bb}\ \q>' \\
+   xcomp & \!{b}{\[ pred & \rm `go\q<\avmd{aaaa}\q>' \\
+                    subj & \avmb{aaa} \]} \]
+\end{avm}
+\nodecurve[r]{a}[t]{aa}{.4in}
+\nodecurve[b]{aa}[t]{aaaa}{.2in}
+\nodecurve[r]{aaa}[b]{aaaa}{.15in}
+\nodecurve[r]{bb}[r]{b}{.5in}[.5in]
+\end{verbatim}}
+\end{examples}
+%
+If one wants (almost) all square-bracketed feature structures labeled,
+it is more convenient to use the sub-mode \verb+labeled+ (see
+Section~\ref{sorted-sec}). 
+
+\section{Fonts}
+By default, \av\ puts {\AVM}s in the type size and style that is currently
+being used.  This allows one to easily type things like the following (in
+\LaTeX):
+
+\begin{examples}
+\item
+{\avmfont{}\footnotesize\sf \begin{avm}
+\[ content \[ reln & \bf cause	\\
+	      causer & \@1 \\
+	      causee & \@2 \\
+	      \avmspan{caused-event\|reln\;\@3} \] \]
+\end{avm}}
+\item
+{\obeyspaces\begin{verbatim}
+{\footnotesize\sf \begin{avm}
+\[ content \[ reln & \bf cause  \\
+              causer & \@1 \\
+              causee & \@2 \\
+              \avmspan{caused-event\|reln\;\@3} \] \]
+\end{avm}}
+\end{verbatim}}
+\end{examples}
+%
+However, one often wants all {\AVM}s to be set in certain fonts and so \av\
+lets you specify default fonts for {\AVM}s.  This is done with the following
+commands:
+%
+\begin{examples}
+\item \verb+\avmfont{...}+
+\item \verb+\avmvalfont{...}+
+\item \verb+\avmsortfont{...}+
+\end{examples}
+%
+This is how fonts work: (i)~index box contents are set in the
+\verb+\scriptstyle+ (smaller subscript size) of the current math font;
+(ii)~if \verb+\avmsortfont+ is defined, sort names for {\AVM}s are set in
+the \verb+\avmsortfont+; (iii)~if \verb+\avmvalfont+ is defined, value
+names (items in the second and subsequent columns of the {\AVM}
+environment) are set in the \verb+\avmvalfont+; (iv) everything not
+assigned a font so far is set in the \verb+\avmfont+, if this is 
+defined, and in the current default font otherwise.
+
+Most of the examples in this
+document are set in small capitals using the following (\LaTeX) defaults:
+%
+\begin{example}
+\verb+\avmfont{\sc}+\\
+\verb+\avmsortfont{\scriptsize\it}+
+\end{example}
+%
+After setting up a default font, to reset things so that \av\ uses the
+current font, simply call the same commands with an empty argument, for
+example, \verb+\avmfont{}+.
+
+Note for Plain \TeX\ users: by default, neither the small capitals font nor
+the equivalent of \LaTeX's \verb+\scriptsize+ italic font is loaded.
+To get similar output in Plain \TeX, the minimum you must add somewhere
+near the beginning of your file is:
+\begin{example}
+\begin{verbatim}
+\font\tensc=cmcsc10
+\font\seveni=cmti7
+\avmfont{\tensc}
+\avmsortfont{\seveni}
+\end{verbatim}
+\end{example}
+%
+However, more setup would be required to fully integrate these fonts into
+Plain \TeX\ or to get things to work with different font sizes or scalings.
+
+The font of any individual item can be changed in the usual way with a font
+changing command, as shown in \exref{firstverbatim}.
+Note that in any of the bracketed structures, font
+changes are always only local (having scope until the next \verb+&+ or
+\verb+\\+), so it is generally not necessary to use braces to delimit
+font changes.
+
+\section{User-specified options}
+
+\av\ has various (well, eight) options that you can specify.  Three of these
+activate sub-modes which alter how you input {\AVM}s, while the others
+alter the way {\AVM}s appear in the output.  You
+activate these options by using the \verb+\avmoptions+ command.  This
+command takes a comma-separated list of options to be turned on and all the
+other options are turned off.  So, three options are turned on
+with \ex{1}[a] and all are turned off (returning things to the default
+mode) with the command \ex{1}[b].  Just \verb+labeled+ can be
+selected with command \ex{1}[c].   Note that the parameter to an
+\verb+\avmoptions+ command must not contain any spaces!  The options
+are \verb+active+; \verb+sorted+, \verb+labeled+; \verb+center+ and
+\verb+bottom+;  \verb+topleft+, \verb+topright+, and \verb+bottomright+.
+Options within each semicolon-separated set are mutually exclusive, but
+otherwise the options can be freely combined.
+%
+\begin{examples}
+\item \verb+\avmoptions{active,sorted,bottom}+
+\item \verb+\avmoptions{}+
+\item \verb+\avmoptions{labeled}+
+\end{examples}
+%
+Setting these options is local to a group and so the domain of effect can
+be delimited with braces.  Also, since all \LaTeX\ environments (things
+enclosed in \verb+\begin+ \ldots\ \verb+\end+ pairs) define their
+own group, including an options command within such a \verb+\begin+ \ldots\
+\verb+\end+ pair will affect only the processing of the rest of that
+environment. 
+
+\subsection{Sort labels in different corners: {\tt topleft},
+	{\tt topright}, and {\tt bottomright}}\label{corners}
+
+While {\small HPSG} normally places sort labels in the bottom left corner
+of {\AVM}s, with {\av} you can actually have sort labels in any corner that
+you wish.  You select different corners for the \verb+\sort+ and
+\verb+\osort+ commands and the \verb+sorted+ option with the options {\tt
+topleft}, {\tt topright}, and {\tt bottomright}.  This is illustrated in
+the next section.
+
+\subsection{The {\tt sorted} and {\tt labeled} sub-modes}\label{sorted-sec}
+
+These modes both affect just the behavior of the square brackets commands
+(in either the default mode or the \verb+active+ sub-mode) and are
+mutually exclusive.  Left square-bracket commands take one argument, which
+is the sort or node label name for this {\AVM}.  The \verb+labeled+ mode 
+gives the same results as using \verb+\!+ (i.e., \verb+\node+), but
+lessens the typing required:
+%
+\begin{examples}
+\item
+\nodemargin=0pt
+\avmoptions{labeled}
+\begin{avm}
+\[{a} subj  & \[{b} num & pl \] \\
+      tense & pres \\
+      pred  & \rm `bark\q<\avmd{c}\q>' \]
+\end{avm}
+\nodecurve[br]{b}[t]{c}{15pt}
+
+\item
+{\obeyspaces\begin{verbatim}
+\avmoptions{labeled}
+\begin{avm}
+\[{a} subj  & \[{b} num & pl \] \\
+      tense & pres \\
+      pred  & \rm `bark\q<\avmd{c}\q>' \]
+\end{avm}
+\nodecurve[br]{b}[t]{c}{15pt}
+\end{verbatim}}
+\end{examples}
+
+The \verb+sorted+ sub-mode gives a combination of the effects of the
+\verb+\sort+ and \verb+\osort+ commands (trying to give you what you
+probably want).
+If the corner sub-mode is {\tt topright} or {\tt bottomright} then it
+always behaves as \verb+\sort+.  If the sub-mode is {\tt topleft}, or the
+default which puts labels in the bottom left, then it behaves like
+\verb+\osort+, except at the outermost level of the {\AVM}, where it
+behaves like \verb+\sort+.\footnote
+ {This is so the outermost sort label will not overlap the text
+  preceding it, whereas if 
+  you use the {\tt\char'134 osort} command, no extra space is added, even
+  at the 
+  outermost level.  This means that if you are building AVMs with sorts in
+  parts, you will want to use {\tt\char'134 osort} rather than the
+  {\tt sorted} sub-mode.} 
+Example \ex{1} was produced by preceding \ex{2} by each of the commands in
+\ex{3} in turn.
+%
+\begin{example}
+\avmvalfont{\rm}
+\avmoptions{topleft,sorted}
+\begin{avm}
+\[{index} variable & \@1 \[{variable} per & 3rd \\
+                                      num & sing \\
+                                      gend & neut \] \\
+          restr & \[{psoa} relation & book \\
+                                 instance & \@1 \] \]
+\end{avm}
+\hfill
+\avmoptions{topright,sorted}
+\begin{avm}
+\[{index} variable & \@1 \[{variable} per & 3rd \\
+                                      num & sing \\
+                                      gend & neut \] \\
+          restr & \[{psoa} relation & book \\
+                                 instance & \@1 \] \]
+\end{avm}\\[2ex]
+\avmoptions{sorted}
+\begin{avm}
+\[{index} variable & \@1 \[{variable} per & 3rd \\
+                                      num & sing \\
+                                      gend & neut \] \\
+          restr & \[{psoa} relation & book \\
+                                 instance & \@1 \] \]
+\end{avm}
+\hfill
+\avmoptions{bottomright,sorted}
+\begin{avm}
+\[{index} variable & \@1 \[{variable} per & 3rd \\
+                                      num & sing \\
+                                      gend & neut \] \\
+          restr & \[{psoa} relation & book \\
+                                 instance & \@1 \] \]
+\end{avm}
+\end{example}
+
+\begin{example}
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\[{index} variable & \@1 \[{variable} per & 3rd \\
+                                      num & sing \\
+                                      gend & neut \] \\
+          restr & \[{psoa} relation & book \\
+                                 instance & \@1 \] \]
+\end{avm}
+\end{verbatim}}
+\end{example}
+
+\begin{examples}
+\item \verb+\avmvalfont{\rm}+\\
+	\verb+\avmoptions{topleft,sorted}+
+
+\item \verb+\avmoptions{topright,sorted}+
+\item \verb+\avmoptions{sorted}+
+\item \verb+\avmoptions{bottomright,sorted}+
+\end{examples}
+
+
+
+%\item
+%\nodemargin=0pt
+%\avmoptions{labeled}
+%\begin{avm}
+%\[{x} subj & \[{a} pred & \rm `pro'\\
+%                   num & sg \\
+%                   pers & 1 \]		\\
+%   pred & \rm `want\q<\[{aa}\;\], \[{bb}\;\]\ \q>' \\
+%   xcomp & \[{b} pred & \rm `go\q<\[{aaaa}\;\]\q>' \\
+%                    subj & \[{aaa}\;\] \] \]
+%\end{avm}
+%\nodecurve[t]{aa}[r]{a}{.4in}
+%\nodecurve[b]{aa}[t]{aaaa}{.2in}
+%\nodecurve[r]{aaa}[b]{aaaa}{.15in}
+%\nodecurve[r]{bb}[r]{b}{.5in}[.5in]
+%\nodecurve[l]{x}[l]{b}{.3in}
+
+\subsection{The {\tt active} sub-mode}
+
+The {\AVM}s above looked okay, but it can get tiring typing all the
+backslashes.  So an alternative environment in which bracket characters are
+`active' (i.e., they are commands) is also provided.  Using it, one can
+type the {\AVM} in \exref{forall} as follows: 
+
+\begin{example}
+{\obeyspaces\begin{verbatim}
+\avmoptions{active}
+\begin{avm}
+[ synsem|local|content\; @2 \\
+  qstore\; \{ [ det & \rm forall \\
+                restpar & @2 [para & @1\\
+                              restr & \{ [ reln & \rm book\\
+                                           inst & @1 ] \} ] ] \} ]
+\end{avm}
+\end{verbatim}}
+\end{example}
+%
+%To be able to type {\AVM}s like this, you need to give the command
+%\verb+\avmoptions{active}+ before beginning the \verb+avm+
+%environment (with either \verb+\avm+ (\TeX) or \verb+\begin{avm}+ (\LaTeX)).
+
+The functionality of this environment is exactly the same as that of
+the default mode described above; all that differs is how various commands
+are called.  The following table defines the correspondence between
+commands in the two versions:
+%
+\begin{example}
+\setbox1=\hbox{\begin{tabular}[t]{|l|l||l|l|}
+\hline
+Default & \verb+active+ mode & Default & \verb+active+ mode\\ \hline
+\verb+\[+ & \verb+[+ & \verb+\]+ & \verb+]+ \\
+\verb+\(+ & \verb+(+ & \verb+\)+ & \verb+)+ \\
+\verb+\<+ & \verb+<+ & \verb+\>+ & \verb+>+ \\
+\verb+\{+ & \verb+\{+ & \verb+\}+ & \verb+\}+ \\
+\verb+[+ & \verb+\[+ & \verb+]+ & \verb+\]+ \\
+\verb+(+ & \verb+\(+ & \verb+)+ & \verb+\)+ \\
+\verb+\q<+ & \verb+\<+ & \verb+\q>+ & \verb+\>+ \\
+\verb+\q\{+ & \verb+\q\{+ & \verb+\q\}+ & \verb+\q\{+ \\
+\verb+\@{...}+ & \verb+@{...}+ & \verb+\|+ & \verb+|+ \\ \hline
+\end{tabular}}
+\evnup[.75ex]{\box1}
+\end{example}
+%
+All other commands in the \verb+avm+ environment are unchanged when
+the \verb+active+ sub-mode is in effect.  Note that curly braces
+still require a preceding backslash.  This is so curly braces can retain
+their usual \TeX\ functions. 
+
+Unfortunately, there is a major restriction on being able to use this
+environment.  Because of 
+the way \TeX\ works, such an environment cannot appear inside the argument
+of any command (such as \verb+\footnote+ or the \verb+\enumsentence+ macro
+of Emma Pease's {\sf lingmacros.sty}).\footnote
+ {This is because characters receive a permanent {\em catcode} when first
+  read as a macro argument.  This is a fundamental feature of \TeX\ and
+  nothing to do with this package.  Hence it isn't likely to change.}
+However, the \verb+active+ sub-mode can be used within \LaTeX\
+environments or between Plain \TeX\ 
+commands that serve as a preamble and postamble.  For example, the author
+has an \verb+example+ environment that produces output similar to the
+\verb+\enumsentence+ macro, and using it and the \verb+active+ sub-mode, he
+could draw the structure in \ex{1} by using the commands in \ex{2}.
+\begin{example}\label{complex}
+\avmoptions{active}
+\begin{avm}
+[ qcontent & < [ det & \rm some \\
+                 restpar & [ para & @3 \\
+                             restr & \{ [ reln & \rm poem\\
+                                          inst & @3      ] \} ] ] > \\
+              dcontent & [ relation & \rm know \\
+                           knower & @2 [ pers & 1 \\ num & sg ] ] ]
+\end{avm}
+\end{example}
+
+\begin{example}
+{\obeyspaces\begin{verbatim}
+\begin{example}
+\avmoptions{active}
+\begin{avm}
+[ qcontent & < [ det & \rm some \\
+                 restpar & [ para & @3 \\
+                             restr & \{ [ reln & \rm poem\\
+                                          inst & @3      ] \} ] ] > \\
+              dcontent & [ relation & \rm know \\
+                           knower & @2 [ pers & 1 \\ num & sg ] ] ]
+\end{avm}
+\end{example}
+\end{verbatim}}
+\end{example}
+
+Here is one more example of the \verb+active+ sub-mode (in
+combination with the \verb+sorted+ sub-mode), included mainly to exercise
+the other commands in the sub-mode.
+%
+\begin{examples}
+\item
+\avmoptions{active,sorted}
+\begin{avm}
+[{test} testing & ( stuff & [{widget} attr$_1$ & \< value$_{@1}$ \> \\
+                    attr$_2$ & \( value \) \\
+                    attr$_3$ & \[ \q\{ value \q\} \] ] ) ]
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\avmoptions{active,sorted}
+\begin{avm}
+[{test} testing & ( stuff & [{widget} attr$_1$ & \< value$_{@1}$ \> \\
+                    attr$_2$ & \( value \) \\
+                    attr$_3$ & \[ \q\{ value \q\} \] ] ) ]
+\end{avm}
+\end{verbatim}}
+\end{examples}
+
+\subsection{The {\tt center} and {\tt bottom} options}
+
+These parameters determine the positioning of the whole {\AVM}.  Although
+an {\AVM} 
+usually appears in a display environment, it is actually like one huge
+character as far as \TeX\ is concerned, and if you choose to put it near
+other characters, you might want any of the top, bottom or center of it
+aligned with those other characters.  By default you get alignment along
+the top (usually what you want), but you can change this by specifying
+\verb+bottom+ or \verb+center+ to the \verb+\avmoptions+ command.
+Giving any \verb+\avmoptions+ command that does not specify \verb+center+
+or \verb+bottom+ will return you to using alignment along the top.
+All three possibilities are shown in the below:
+
+\begin{examples}
+\item
+Top \avmoptions{active}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm},
+bottom \avmoptions{active,bottom}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm}
+or center \avmoptions{active,center}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm}.
+
+\item
+{\obeyspaces\begin{verbatim}
+Top \avmoptions{active}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm},
+bottom \avmoptions{active,bottom}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm}
+or center \avmoptions{active,center}\begin{avm}
+[ case & acc \\ gend & fem \\ num  & pl ]
+\end{avm}.
+\end{verbatim}}
+\end{examples}
+Within the {\AVM} environment, bracketed structures are always aligned
+along their centers.  But you can get different alignments by nesting
+{\AVM} environments (as opposed to nesting brackets within a single {\AVM} environment).
+
+\section{Advanced topics}
+
+\subsection{Layout parameters}
+
+Three parameters control the spacing in {\AVM}s.  \verb+\avmvskip+ determines
+the extra vertical space added at the beginning, end and between every row
+of an aligned structure.  \verb+\avmhskip+ determines the spacing between
+two columns of an aligned structure.  At the left and right borders of an
+aligned structure (between the bracket and the first or last column) the
+spacing is \verb+\avmbskip+.  
+The default values of these parameters (determined by eyeballing) are:
+%
+\begin{examples}
+\item \verb+\avmvskip{+{\tt \avmjvskip}\verb+}+
+\item \verb+\avmhskip{+{\tt \avmjhskip}\verb+}+
+\item \verb+\avmbskip{+{\tt \avmjbskip}\verb+}+
+\end{examples}
+%
+These defaults are defined in terms of the font-dependent units \verb+em+
+and \verb+ex+ so that they vary with the font size, but these parameters
+can be defined as any  
+$\langle${\em dimen}$\rangle$.  For more compressed {\AVM}s (such as those
+embedded in phrase-structure trees), the author tends to issue the
+following commands:
+%
+\begin{example}
+\verb+\avmvskip{.1ex}\avmhskip{.5em}+
+\end{example}
+
+
+\subsection{Using boxes to build huge AVMs}
+
+Note that \TeX\ has only a finite capacity for nesting, and if a
+structure is too complicated \TeX\ may be unable to set it.  The vertical
+length of an {\AVM} is fairly unimportant; the critical parameter is the
+horizontal depth of nesting of stretchable brackets.  On the \TeX\ I am
+using, one can embed
+stretchable brackets to about the level shown in \exref{complex} (when
+already within a
+\LaTeX\ list environment).  To set a
+more complex {\AVM} than this, you unfortunately have to set pieces
+separately, store them in box registers and then set the whole {\AVM} (or
+else find a \TeX\ with a larger {\em semantic nest size\/}).  An example of
+how to do this is shown below.  Not the use of the {\tt center}
+sub-mode.\footnote 
+ {Note also that \TeX\ box manipulation commands are shown.  These work
+  perfectly well under \LaTeX\ as well, but if you want to find out about the
+  official \LaTeX\ box manipulation commands, see pp.~96--101 of the \LaTeX\
+  book.} 
+%
+\begin{examples}
+\item 
+\newbox\mybox \newbox\myboxtoo \avmoptions{center}
+
+\setbox\mybox=\hbox{\begin{avm}
+	\osort{ppro}{\[index & \osort{index}{\[ per & \it 3rd\\
+	num & \it sing\\
+	gend & \it fem \]} \]}
+	\end{avm}}
+\setbox\myboxtoo=\hbox{\begin{avm}
+	\sort{soa}{\[reln & \it female \\
+	inst & \@1 \]}
+\end{avm}}
+
+\avmoptions{active,sorted}
+\begin{avm}
+[{sign} phonology\;\<\rm she\> \\
+    synsem\;[{synsem} local & [{local} category & [{cat} head & 
+				\it noun{\sc \[case\;{\it nom}\]}\\
+				subcat & \< \> ] \\
+content & [{ref-obj} para & @1 \box\mybox \\
+		     restr & \q\{ \q\}] \\
+context & [{context} backgr & \{ \box\myboxtoo \} ]]]]
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\newbox\mybox \newbox\myboxtoo \avmoptions{center}
+
+\setbox\mybox=\hbox{\begin{avm}
+        \osort{ppro}{\[index & \osort{index}{\[ per & \it 3rd\\
+        num & \it sing\\
+        gend & \it fem \]} \]}
+        \end{avm}}
+\setbox\myboxtoo=\hbox{\begin{avm}
+        \sort{soa}{\[reln & \it female \\
+        inst & \@1 \]}
+        \end{avm}}
+
+\avmoptions{active,sorted}
+\begin{avm}
+[{sign} phonology\;\<\rm she\> \\
+    synsem\;[{synsem} local & [{local} category & [{cat} head & 
+                                \it noun{\sc \[case\;{\it nom}\]}\\
+                                subcat & \< \> ] \\
+content & [{ref-obj} para & @1 \box\mybox \\
+                     restr & \q\{ \q\}] \\
+context & [{context} backgr & \{ \box\myboxtoo \} ]]]]
+\end{avm}
+\end{verbatim}}
+\end{examples}
+%
+It would be nice if \av\ could be made more economical in its use of this
+\TeX\ resource, but I don't know how to do that without compromising
+the functionality or the user interface of \av.
+
+\subsection{Known problems}
+
+All known bugs were fixed for the Version 1.00 release.  Please send bug
+reports and ideas for improvements to the email address given at the
+beginning of this document.
+
+
+\end{document}
+
+Finally, note that \verb+avm+ environments can be nested while
+\verb+specialavm+ cannot, though it is unclear to me why anyone would want
+to nest these environments anyway.
+\begin{examples}
+
+
+\item \begin{avm} \osort{x}{\[ \]} \end{avm}A  AA  A[
+
+\item \newbox\testing
+\setbox\testing=\hbox{\begin{avm} \osort{x}{\[ A \]} \end{avm}}
+\leavevmode\box\testing A
+
+\item \begin{avm} 
+\[ a & b \\[3ex]
+c & d \\[6ex]
+e & f \\
+g & h \]
+\end{avm}
+
+\item \begin{avm}
+\< \begin{avm} \[ case & nom\\ gend & fem \] \end{avm}, 
+\begin{avm} \[ case & abl\\ gend & fem \] \end{avm} \>
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\< \begin{avm} \[ case & nom\\ gend & fem \] \end{avm}, 
+\begin{avm} \[ case & abl\\ gend & fem \] \end{avm} \>
+\end{avm}
+\end{verbatim}}
+\end{examples}
+
+\begin{examples}
+\avmoptions{active}
+\item \begin{avm}
+< \begin{avm} [ case & nom\\ gend & fem ] \end{avm}, 
+\begin{avm} [ case & abl\\ gend & fem ] \end{avm} >
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\< \begin{avm} \[ case & nom\\ gend & fem \] \end{avm}, 
+\begin{avm} \[ case & abl\\ gend & fem \] \end{avm} \>
+\end{avm}
+\end{verbatim}}
+\end{examples}
+
+
+
+\begin{examples}
+\item
+\avmoptions{topleft}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{topright}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{bottomright}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item \avmvalfont{\it}
+\begin{avm}
+\[ phonology & \rm \q<who\q>\\
+synsem\|local & \[ category & \[ head & noun\\
+				subcat & \q<\q> \] \\
+		content\|parameter & \@1 npro\\
+		context\|background & \{ \[ relation & human\\
+					instance & \@1 \] \} \] \]
+\end{avm}
+
+\item {\obeyspaces
+\begin{verbatim}
+\begin{avm}
+\[ phonology & \rm \q<who\q>\\
+synsem\|local & \[ category & \[ head & \it noun\\
+				subcat & \q<\q> \] \\
+		content\|parameter & \@1 \it npro\\
+		context\|background & \{ \[ relation & \it human\\
+					instance & \@1 \] \} \] \]
+\end{avm}
+\end{verbatim}}
+
+\item
+\avmoptions{sorted}
+\begin{avm}
+\[{boris} ind & \[{wilbur} num & sg \\ gend & fem \] \]
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\avmoptions{sorted}
+\begin{avm}
+\[{boris} ind & \[{wilbur} num & sg \\ gend & fem \] \]
+\end{avm}
+\end{verbatim}}
+
+\item
+\begin{avm}
+\avml subcat & \< \[pos & n\\case & acc\],
+		  \[pos & v\\vform & inf\] \> \avmr
+\end{avm}
+
+\item
+{\obeyspaces\begin{verbatim}
+\begin{avm}
+\lavm subcat & \< \[pos & n\\case & acc\],
+		  \[pos & v\\vform & inf\] \> \ravm
+\end{avm}		  
+\end{verbatim}}
+
+\end{examples}
+
+Describe avmbox, sorts on different corners, new options to end of line
+command.  Anything else?
+
+
+
+\end{document}
+
+
+provides severaltwo environments: one where all commands are still preceded with
+the backslash character `$\backslash$', and another where the various
+bracket characters are defined as active characters (commands).  However,
+using the latter imposes certain restrictions and so it will only be
+described later.\footnote
+ {The user interface of the `active' environment of \av\ is derived from
+  the style file {\sf 
+  hpsg.sty} by Harry Bratt.  However, not only does this package work with
+  both \TeX\ and \LaTeX, but it corrects various failings of the
+  latter: text in {\AVM}s is set in horizontal (LR) mode, not math mode;
+  \av\ properly restores the parameters and definitions it fiddles with
+  (so you can load \av\ anywhere among your list of
+  document-style options!) and the availability of the `standard' environment
+  allows feature structures to appear within the arguments of other
+  commands.} 
+
+
+\item \avmoptions{center}
+\setbox7=\hbox{\begin{avm}
+\osort{ppro}{\[index & \osort{index}{\[ per & \it 3rd\\
+num & \it sing\\
+gend & \it fem \]} \]}
+\end{avm}}
+
+{\avmoptions{active,sorted}
+\begin{avm}
+\sort{sign}{[{} phonology & \<\rm she\> \\
+    synsem|local & [{local} category & [{cat} head & 
+				\it noun{\sc \[ case\;{\it nom}\]}\\
+				subcat & \< \> ] \\
+content & [{ref-obj} para & \box7 ]]]}
+\end{avm}}
+
+
+\item \begin{avm}
+\[ pers & mum \\
+  ind & \[ ind2 & \[ ind3 & \[ ind4 & \[ nose & ear\\
+	   ear & wig \] \] \] \]\\
+   case & acc \]
+\end{avm}
+%\item \begin{avm}
+%\[ attr & \begin{avm} \[ a1 & v1\\ a2 & v2\]\\
+%   attr2 & val \]
+%
+%{\avmoptions{active}
+%\item \begin{avm}
+%[ attr & \begin{avm} [ a1 & v1\\ a2 & v2]\\
+%   attr2 & val ]
+%}
+%\item
+%\begin{avm}
+%\[ pers & 3\\
+%   num & sg\]
+%\end{avm}
+%\begin{avm}
+%\[ pers & 3\\
+%   num & sg \\ \]
+%\end{avm}
+
+%
+%\item
+%\begin{avm}
+%\[{content}qcontent & \< \[{} det & \rm some \\
+%                          restpar & \[{}para & \@3 \\
+%                                     restr & \{ \[{}reln & \rm poem\\
+%                                                inst & @3    \] \} \] \] \> \\
+%              dcontent & \[{} relation & \rm know \\
+%                           knower & \@2 \[{} pers & 1 \\ num & sg \] \] \]
+%\end{avm}
+
+\begin{examples}
+\item
+\avmoptions{topleft}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{topright}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+
+\item
+\avmoptions{bottomright}
+\begin{avm}
+\sort{indexed-obj}{\[ index & \osort{index}{\[
+	variable & \@1 \osort{variable}{\[ per & \rm 3rd \\
+					   num & \rm sing \\
+					   gend & \rm neut \]} \\
+	restriction & \osort{psoa}{\[relation & \rm book \\
+				     instance & \@1 \]} \]} \]}
+\end{avm}
+\end{examples}
+

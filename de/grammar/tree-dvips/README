@@ -1,0 +1,48 @@
+tree-dvips: There are three items in this package.  All files released
+under the LaTeX Project Public License, version 1, or (at your option),
+any later version.
+
+1. CSLI postscript drawing macros.  Created by Emma Pease
+(erpease at gmail dot com).  
+
+latest update: May 16, 1995
+version .91
+
+These macros were originally created to draw the lines between nodes
+in the trees created by the tree macros in lingmacros.sty.  They will
+only work with dvips version 541 or later (by Tomas Rokicki available
+on labrea.stanford.edu) but can be easily modified to be used with
+earlier versions of dvips and slightly less easily modified for other
+dvi to postscript convertors.
+
+Problems:
+
+Be wary of using page extraction programs such as dviselect as you may
+accidently drop the special command loading the header file if you do
+not include the first page.  dvips's own page selection commands will
+keep the special.
+
+If rotating, the nodeconnects should be included within the boundaries
+of the \rotate command
+
+
+2. CSLI linguistics macros (lingmacros.sty).  Created by various folk at
+CSLI but maintained by Emma Pease.
+
+3. The avm.sty file is a separate package created by Chris Manning
+(manning@lcl.cmu.edu) while he was at csli.  It is included by
+permission from him.
+
+
+To install, place 
+
+tree-dvips.pro
+
+in the postscript header path for dvips. 
+
+place the three .sty files where you put latex style files
+
+Two things not included in this file but may be needed are
+the squeeze program and rotate.sty.  Both are available with dvips.
+
+

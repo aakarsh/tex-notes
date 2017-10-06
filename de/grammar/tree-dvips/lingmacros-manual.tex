@@ -1,0 +1,124 @@
+\documentstyle[lingmacros]{article}
+
+\title{Linguistic Macros}
+\author{Emma Pease}
+\date{May 10,1995}
+
+\begin{document}
+
+\maketitle
+
+The lingmacros file contains a few macros that may be of use to
+linguists.  The major commands are
+\begin{enumerate}
+\item The enumsentence macros for creating example sentences
+\begin{center}
+\begin{verbatim}
+\enumsentence[label]{sentence}
+\eenumsentence[label]{\item[label] sentence 1
+                      \item[label] sentence 2}
+\end{verbatim}
+\end{center}
+ The enumsentence macros are similar to the math equation environment
+except that they take regular text.  The \verb+\label+ command can be
+used inside of them.\footnote{The enumsentence macros use the counter,
+enums.  For more information read the style file.} Inside of the
+eenumsentence either the \verb+\toplabel+ command for the sentence
+number only or the \verb+\label+ for sentence number and sublabel.
+Also defined is
+\verb+\ex{number}+ which gives a relative reference.  \verb+(\ex{1})+
+or \verb+(\ref{senta})+ give the number of the next enumsentence (\ex{1})
+or (\ref{senta}); \verb+(\ex{2})+ or \verb+(\ref{sentb})+ of the second
+succeeding enumsentence (\ex{2}) or (\ref{sentb}).
+\verb+(\ref{sentbb})+ will give (\ref{sentbb}).
+ \enumsentence{This is the first sentence\label{senta}}
+\eenumsentence{\item this is a second sentence \toplabel{sentb}
+               \item this is a third sentence\label{sentbb}}
+\begin{center}
+\begin{verbatim}
+\enumsentence{This is the first sentence\label{senta}}
+\eenumsentence{\item this is a second sentence \toplabel{sentb}
+               \item this is a third sentence\label{sentbb}}
+\end{verbatim}
+\end{center}
+
+
+\item The tree macros
+\begin{center}
+\begin{verbatim}
+\smalltree{alignment structure}
+\modsmalltree{number of columns}{alignment structure}
+\end{verbatim}
+\end{center}
+\verb+\smalltree+ is based on the tabular environment with a large
+baselineskip. A simple example should suffice.
+\enumsentence{\smalltree{& &a\\ 
+                         &b& &c\\ 
+                        d& &e& &f}}
+\begin{center}
+\begin{verbatim}
+\enumsentence{\smalltree{& &a\\ 
+                         &b& &c\\ 
+                        d& &e& &f}}
+\end{verbatim}
+\end{center}
+\verb+\modsmalltree+ sometime works better.
+\enumsentence{\modsmalltree{5}{& &a\\ 
+                         &b& \mc{3}{this is long}\\ 
+                        d& &e& &f}}
+\begin{center}
+\begin{verbatim}
+\enumsentence{\modsmalltree{5}{& &a\\ 
+                         &b& \mc{3}{this is long}\\ 
+                        d& &e& &f}}
+\end{verbatim}
+\end{center}
+ Note the use of the \verb+\mc{number of columns}{text}+ to span
+several columns.  The \verb+\clap{text}+ might also be useful; it is
+similar to the \verb+\rlap+ and \verb+\llap+ commands and produces a
+centered hbox of zero width.  Lines need to be drawn in by hand or one
+can use the tree-dvips macros. 
+
+\item The gloss macros
+\begin{center}
+\begin{verbatim}
+\shortex{number of columns}{first line}{second line}{gloss}
+\shortexnt{number of columns}{first line}{second line}
+\end{verbatim}
+\end{center}
+These can be combined to produce most of the glosses that linguists
+should need.
+\enumsentence{\shortex{6}{Was & ist & dem & Kind & geschenkt&worden?}
+                         {What& is  & the & child& given    &been?}
+                         {What has been given to the child?}
+               \item \shortexnt{7}
+{Das & Fin\'anzamt      & hat & ihn & geschnappt &(und & nicht}
+{the &finance authority & has & him & caught     &(and &not}
+
+\shortex{2}{die &Polizei).}
+           {the &police).}
+           {It was the IRS that caught him (and not the police).}}
+\begin{center}
+\begin{verbatim}
+\enumsentence{\shortex{6}{Was & ist & dem & Kind & geschenkt&worden?}
+                         {What& is  & the & child& given    &been?}
+                         {What has been given to the child?}}
+               \item \shortexnt{7}
+{Das & Fin\'anzamt      & hat & ihn & geschnappt &(und & nicht}
+{the &finance authority & has & him & caught     &(and &not}
+
+\shortex{2}{die &Polizei).}
+           {the &police)}
+           {It was the IRS that caught him (and not the police).}}
+\end{verbatim}
+\end{center}
+Unfortunately, I've not figured out a fullproof method of breaking
+the glosses automatically so they have to be done by hand.  
+
+\item AVM structures: These exist within lingmacros but Chris
+Manning's AVM macro package is better.  
+
+
+\end{enumerate}
+\end{document}
+

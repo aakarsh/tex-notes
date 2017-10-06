@@ -1,0 +1,122 @@
+\textheight=9in
+\textwidth=6.5in
+\oddsidemargin=0in
+\evensidemargin=0in
+\topmargin=-.5in
+
+\def\av{{\sf avm.sty}}
+\def\AVM{\small AVM}
+\avmfont{\sc}
+\avmsortfont{\scriptsize\it}
+\def\ssf{\small\sf}
+
+% This was used in trees to make the tree skips bigger and the avm skips
+% smaller.
+\def\avmtreeparms{\avmvskip{.1ex}\avmhskip{.5em}%
+\avmbskip{-.2em}\daughterskip=4ex\sisterskip=3em}
+
+%chris+
+% The \ex definition
+%   modified Feb 13 1991 to provide \exn for bare example number,
+%   \ex for normal xref format, in parentheses.
+% further modified to have (following) optional argument for sublabel
+% beware if you follow it by a square bracket for other reasons!
+%\newcounter{tempcnt}
+
+% this one doesn't gobble spaces while looking for a [ and so will leave a
+% space after an optional argument.
+\def\@ifverynextchar#1#2#3{\let\@tempe #1\def\@tempa{#2}\def
+        \@tempb{#3}\futurelet\@tempc\@ifvnch}
+\def\@ifvnch{\ifx \@tempc \@tempe\let\@tempd\@tempa\else\let\@tempd\@tempb\fi
+        \@tempd}
+
+\newcommand{\exn}[1]{\setcounter{tempcnt}{\value{enums}}%
+\addtocounter{tempcnt}{#1}%
+\arabic{tempcnt}}
+
+\def\@ex#1[#2]{(\exn{#1}#2)}
+
+\def\ex#1{\@ifverynextchar[{\@ex#1}% %]
+{\@ex#1[]}}
+
+\def\exx#1#2{(\exn{#1}--\exn{#2})}
+
+\def\exxref#1#2{(\ref{#1}--\ref{#2})}
+
+%  \exref for label-references: (ADA 13 Feb 1991)
+\def\exref#1{\@ifverynextchar[{\@exref#1}% %]
+{\@exref#1[]}}
+
+\def\@exref#1[#2]{(\ref{#1}#2)}
+%chris-
+
+
+
+% taken from Chris's personal macros
+%chris+
+% Examples environment.  This is a slightly non-standard environment that
+% has two optional parameters:
+% o the first is a number or other label to give the example.  This
+%   optional argument must be surrounded in ( ); if none is supplied the
+%   enums counter is used; either will be surrounded by ( ) in the text.
+% o the second is a string representing the longest piece of text you
+%   allege you will want to llap with \bad below and the indentation of
+%   examples is increased by the width of it to allow for this.
+% (Note that LaTeX doesn't officially support optional arguments to
+% environments, and having two kinds of optional arguments is a bit of an
+% innovation, but they're not difficult to implement in practice.)
+% Examples:
+%   A complete example:
+%     \begin{examples}(18)[\#\#] \item \bad{\#\#}A bone ate a dog.
+%                                \item A dog ate a bone.    \end{examples}
+%   Other prologues:
+%     \begin{examples} (92)    \begin{examples}[??]    \begin{examples}
+\newbox\ll@pbox      % for calculating width of llap'ed material
+\newdimen\llapdimen
+\llapdimen=0pt
+\newdimen\exlabel
+\exlabel=20pt
+
+\def\bad#1{\leavevmode\llap{#1}}        % put badness ratings in here!
+
+% these clauses provide a definition of the `examples' pseudo-environment
+\def\examples{\@ifnextchar({\ex@@mples}% %)
+{\refstepcounter{enums}\ex@@mples(\theenums)}}
+
+\long\def\ex@@mples(#1){\@ifnextchar[{\ex@mples(#1)}% %]
+{\ex@mples(#1)[]}}
+
+\long\def\ex@mples(#1)[#2]{\def\eelabel{#1}
+\setbox\@tempboxa=\hbox{(#1)}%There used to be a space here which was crazy
+\@tempdima=\wd\@tempboxa
+\ifdim\exlabel>\@tempdima \@tempdima=\exlabel\fi
+%\advance\@tempdima by -20pt
+\setbox\ll@pbox=\hbox{#2}
+\@tempdimb=\wd\ll@pbox
+\ifdim\llapdimen>\@tempdimb \@tempdimb=\llapdimen\fi
+\begin{list}{\alph{enumsi}.}{\usecounter{enumsi}%
+% abandon auto width determination until I can get it right...
+%\labelwidth=\@tempdima\leftmargin=\@tempdima
+\advance\leftmargin by \eeindent\advance\labelwidth by \eeindent
+\advance\leftmargin by \@tempdimb\advance\labelsep by \@tempdimb
+\advance\leftmargin by\widelabel \advance\labelwidth by \widelabel
+%\itemsep=0pt  % Optional, but sometimes examples look better scrunched a bit
+\let\makelabel=\enummakelabel}}
+
+\def\endexamples{\end{list}}
+
+% example environment
+\def\example{\@ifnextchar({\ex@@mple}% %)
+{\refstepcounter{enums}\ex@@mple(\theenums)}}
+
+\long\def\ex@@mple(#1){\@ifnextchar[{\ex@mple(#1)}% %]
+{\ex@mple(#1)[]}}
+
+\long\def\ex@mple(#1)[#2]{\setbox\ll@pbox=\hbox{#2}%
+\begin{list}{}{\advance\leftmargin by \wd\ll@pbox%
+\advance\leftmargin by\widelabel \advance\labelwidth by\widelabel
+\advance\labelsep by \wd\ll@pbox} 
+\item[(#1)]}
+
+\def\endexample{\end{list}}
+%chris-
