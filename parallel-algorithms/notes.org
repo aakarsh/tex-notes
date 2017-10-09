@@ -1,0 +1,186 @@
+* Parallel Prefix Sum
+** Parallel Scan
+*** Aspects of both map and fold :
+    List(1,3,8).scanLeft(100) ((s,x) => s+x)
+         = List(100,101,104,112)
+
+    First element of the list is equal to the
+    seed element.
+
+*** Computing Scan Left :
+
+    List(a1,a2,a3).scanLeft(a0)(f) =
+         List(b0,b1,b2,b3)
+
+    b0 = a0
+    b1 = f(b0, a1) // from left computation
+    b2 = f(b1, a2) // from left computation
+    b3 = f(b3, a3) // from left computaiton
+
+*** Computing Scan Right :
+    
+    List(1, 3, 8).scanRight(100)(_ + _) =
+         List( 112, 111, 108, 100)
+
+    Last Element of the list is now equal to the
+    seed element.
+
+*** Sequential Scan :
+
+    Simplest way to implement scanLeft sequentially is
+
+    def scanLeft[A](input: Array[A], a0 : A,
+                    f: (A,A) => A, output: Array[A]): Unit {
+        var i = 0
+        var runningSum = a0
+
+        output(i) = runningSum
+
+        // assert: output.length >= input.legth + 1
+
+        while(i < input.length) {
+           output(i+1) = f(runningSum,input(i))
+           runningSum = output(i+1)
+        }
+    }
+
+*** Making scan parallel
+
+    - f is associative
+
+    - Goal: O(log n) given infinite parallelism
+
+    - Problems :
+
+       - Value of last element depends on previous ones.
+       - Need to wait on previous partial results to be computed.
+       - O(n) - infinite parallelism
+
+     - Idea :
+          Give up on using intermediate results.
+
+*** Express Scan using map and reduce ignoring efficiency
+
+    - reduceSeg1[A] (input: Array [A],
+                     left: Int, right: Int,
+                     a0: A, f: (A,A) => A  ) : A
+
+    - mapSeg[A,B]   (input: Array [A],
+                     left: Int, right: Int,
+                     fi: (Int, A) => B,
+                     out: Array[B]): Unit
+
+
+    def scanLeft[A](input: Array[A], a0: A,
+                    f: (A,A) => A, out: Array[A]) {
+        // compute reduction till i
+        val fi = { (i:Int, v:A) => reduceSeg1(input,0,i,a0,f) }
+
+        // store prefix-reductions till i
+        mapSeg(input,0, input.length,fi, out)
+
+        val last = input.lenght  - 1
+        out(last + 1 ) = f(out(last), input(last))
+    }
+
+    - Each element is computed completely independent of other elements.
+    - No intermediate values are reused.
+    -
+
+*** Reduce that preserves the computation tree
+
+
+    def reduceRes[A](t: Tree[A], f: (A,A) => A): TreeRes[A] =
+       t match {
+          case Leaf(v) => LeafRes(V)
+          case Node(l,r)  => {
+             val (tL,tR) = (reduceRes(l, f), reduceRes(r, f))
+             NodeRes(tL, f(tL.res, tR.res), tR)
+          }
+       }
+
+    The reduction tree each root is can be computed using the
+    independently computing reductions on left and right parts of
+    the tree.
+
+*** Using intermediate tree results to compute final output.
+
+    def downsweep[A](t: TreeRes[A], a0: A, f: (A, A) => A): Tree[A] =
+        t match {
+           case LeafRes(A) => Leaf(f(a0,a))
+           case NodeRes(l, _ ,r) => {
+               val (tL, tR) = parallel(downsweep[A](l, a0, f),
+                                       // downsweep gets reduction
+                                       downsweep[A](r, f(a0, l.res), f))
+               Node(tL, tR)
+           }
+        }
+   //
+   f(a0, l.res )
+   l.res :  encodes the previous reduction from upsweep-
+            It includes the sum of all left tree children.
+   a0 -  : a0 is the reduction of the root's left sibling.
+            It includes all chilren to the left of the root.
+
+   Thus together l.res and a0 represent the prefix sum of all
+   elements to the left most child of current right tee.
+   This is passed down to the tree.
+
+   def scanLeft[A] (t: Tree[A], a0: A, f: (A,A) => A): Tree[A] = {
+       val tRes = upsweep(t, f)
+       val scan1 = downsweep(tRes, a0, f)
+       prepend(a0,scan1)
+   }
+
+*** Store/Chunk Elements of the Tree
+
+    def upsweep[A](input: Array[A], from: Int, to: Int,
+                   f: (A,A) => A) : TreeRes[A] = {
+
+       // :- reduce whole segment
+       if(to - from < threshold) {
+          // :- if under the threshold length
+          // Instead of going to indifidual elements we reduce a whole segment.
+          // From serves as the start-element t reduce.
+          // This will cause the Leaf to store the reduced sum.
+          
+          Leaf(from, to,
+               reduceSeg1(input, from + 1 , to , input(from) ,f))
+       } else {
+
+          // Q : Why do I need the mid ?
+          val mid = from + ( to - from) / 2
+
+          // Q: Try to keep the tree balanced
+          val (tL, tR) = parallel(upsweep(input, from, mid, f),
+                                  upsweep(input, mid , to , f))
+
+          // compute the function on reductions on both leaves.
+          // 
+          Node(tL, f(tL.res, tR.res), tR)
+       }
+    }
+
+
+    def downsweep[A](input: Array[A], a0: A, 
+                     f: (A,A) => A,
+                     t: TreeRes[A],
+                     out: Array[A]): Unit = t match {
+                     
+        case Leaf(from, to, res) => 
+             // do a sequential scan on elements under the threshold
+             // boundaries of the scan are stored in the leaf itself
+             // lots of fiddly base cases.
+             scanLeftSeg(input, from, to, a0, f, out)
+
+        case Node(l, _ , r) = {
+             val (_,_) = parallel(
+                 downsweep(input,a0, f, l, out),
+                 downsweep(input,f(a0,l.res), f,r,out))
+        }
+    }
+
+
+* Reductions and Prefix Sums
+** 
+
