@@ -1,3 +1,232 @@
+
+* Prepositions
+  
+  Most idiomatic parts of speech.
+  Propositions can govern case. 
+
+  {Nouns/Pronouns} following prepositions must follow
+  case of {accusative, dative, gentive}
+
+  Two-way prepositions an be accusative or dative.
+
+  
+** Prepositions that take accusative case
+   
+   eith prepositions require any following noun
+   to be in accusative case: 
+
+   FUDGEBOW - will accuse you 
+   Fuer , Um, Durch, Gegen, Entlag, Bis, Ohne, Wider
+
+*** bis (until, by, as far as)
+    up to a certain (time/place)
+
+***** Er belibt bis naechste Woche
+     He is staying till next week.
+***** Bis morgen
+     See you tomorrow.
+***** Ich will das Buch bitte bis naechste Woche zurueck haben
+     I want to have a book back by next week, please.
+***** Bis wann muss ich wieder heir sein?
+     By when must I be back here?
+***** Ich fahre nur bis Hannover.
+     I am only going as far as Hanover.
+***** von Kopf bis Fuz
+     from head to toe
+
+***** von oben bis unten
+     from top to bottom
+
+
+
+**** If used with a determiner in between there must be second governing proposition
+
+***** Es muss (bis) zum Jahr 2015 eine Loesung gefunden werden.
+      
+      By 2015 asolution has to be found.
+***** Wir werden (bis in) das naechste Jahrhundert eine Loesung suchen.
+
+      We will be searchign for a solutino till next century.
+
+***** Das Wasser kam (bis an) seinen mund
+
+      The water came (up until) as far as his mouth.
+
+***** Er ging (bis an) den Zaun und nicht wieter.
+
+      He walked as far as the fence and no furhter.
+
+*** durch (through by)
+**** The primary meaning is through.
+
+***** Wir sind quer (durch) die Mitte der Stadt gefahren.
+      We drove straight through the center of the town. 
+
+***** Ich habe es (durch) Zufall gehoert
+      I heard it through/by chance.
+
+**** Can also be rendered 'by ' in pasive when non person
+
+***** Die Gastaette is (durch) Feuer zerstoert worden
+      The restaurant was destroyed by fire.
+
+*** entlang (along)
+
+**** Sie gingen den Fluss(acc.) (entlang)
+     They walked along the river.
+
+**** Sie gingen am(an+dative) Fluss entlang.
+     They walked along the river.
+
+*** fuer (for)
+
+***** Ich habe ein Geschenk fuer dich(acc.)
+
+     I have a gift for you 
+
+***** Wie viel hast du dafuer bezahlt?
+
+     How much did you pay for it?
+
+*** gegen(against)
+
+***** Stell die Lieter gegen die Wand!
+
+      Put the ladder (up) against the wall
+
+***** Ich habe nichts gegen ihn
+
+      I have nothing against him
+
+***** Er kam so gegen acht Uhr an.
+
+      He arrived at about eight o'clock (lit. getting on towards eight. but no later)
+
+***** Er tauchten ploetzlich gegen fuenfzig Kinder auf.
+
+      All of a sudden about fifty children turned up.
+
+*** ohne (without)
+
+**** Never followed by an indefinite article
+
+***** Nur er war ohne Schlips    
+      Only he was without a tie
+
+***** Er geht nei ohne seinen Hund spazieren
+      He never goes for a walk without his dog.
+
+**** Ohne is also used as a conjunction.
+
+*** um (around)
+**** The primary meaning of um is 'around'
+
+***** Ich bin zweimal umdie Welt geflogen
+      I have flown around the world twice.
+
+***** Der Film faengt um halb acht an.
+      
+      The film starts at half past seven.
+      
+*** wider(against)
+
+    Formal synonemn for gegen
+
+
+
+** Prepositions that take the *Dative Case*
+
+   Mneumonic:'out of from midnight , tight by  xtwo
+              'aus ,von,  mit,nach   seit, bei,zu'
+   
+*** aus (out of,from)
+**** The primary meaning of aus is out of 
+*** Er rannte aus-> (dem Huas) (dative.)
+    He ran out of th house.
+*** Ich komme aus Frankreich/Paris
+    I came from France/Paris
+*** Der Brief kam aus Poeln
+    The letter was from Poland
+
+*** auzer (apart from, except for, besides, other than)
+**** Context depedendent translation from above option list.
+**** Idiomatic out of may be auzer not aus .
+***** Das Telefon an der Ecke ist auzer(out of) Betreib
+      The telphone on the corner is out of order.
+***** Sie war auzer sich (vor Angst)
+      She was besides herself (wiht fear).
+
+***** Ich musste rennen und war deswegen voellig auzer(without) Atem.
+      I had to run and was thus completely out of breath.
+
+*** bei(at, with)
+**** many idiomatic uses, at.. and with
+***** Dieses Jahr feiern wir meinen Guburtstag bei meinen, Grozeltern
+
+***** Meine Fruendin wohnt noch bei ihern Elern..
+
+      My girlfriend is still living with her parents.
+**** Used with definitive article with professional places
+
+***** Meine Frau ist beim Arzt
+      My wife is at the doctor's 
+
+***** Ich bin ihr beim Baeker begegnet 
+      I bumped into her at the bakers'/ in the bakery
+
+**** When you state that you baught s.t at a particular shop
+
+***** Ich habe unseren neuen Fernseher bei Hertie gekauft.
+      
+      I bought our new television set at Harrods'
+
+***** Mein  Onken arbeitet bei VW.
+
+      My uncle works for VW.
+
+**** Reflexive pronoun "on one'sperson"
+
+***** Er hatte keinen Pfenning bei sich
+
+      He didn't have a penny on him
+
+***** Beim Fahren hat man Zeit ueber Gott und die Welt nachzudenken
+      
+      You have time to think about everyhting under the sun when you'r
+      driving.
+
+*** gegenueber( opposite, towards)
+
+***** Er saz mir gegenueber
+      He sat opposite me.
+
+***** Er wohnt der alten Damen gegenueber
+      He lives opposite me.
+      
+***** Die Baekerei befindet sich gegenueber dem Postamt.
+
+      The bakery is situated opposite the post office.
+
+*** mit (with)      
+
+***** Er gign mit seinem Hund im Park spazieren
+
+      He went for a walk with his dog in the park.
+
+***** Mit diesem Messer kann man kein Brot schneidn.
+***** Sie ist mit der Strazenbahn in die Stadt gefahren
+
+*** nach (to, after)
+**** The most usual meaning of nack is 'after'
+**** 
+
+*** seit (since, for)
+*** von (from, off, of)
+*** zu (to)
+*** ab (from)
+
+
+
 * Negation
 ** Position of nicht(not) and nei(mals) never
 *** Negative follows :
