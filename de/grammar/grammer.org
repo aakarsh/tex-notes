@@ -1,1 +1,109 @@
-* 
+* Negation
+** Position of nicht(not) and nei(mals) never
+
+*** Negative follows :
+**** Adverbs of *Specific Time*  *after*
+***** Ich komme heute nicht mit
+      I am not coming with you today
+
+***** Wir wollen es diese Woche nicht machen
+      We don't want to do it this week.
+
+**** *except* adverbs of *general time*
+     such as : immer,oft,selten
+***** Er ist nicht immer so faul gewesen
+      He has not always been so lazy
+**** *definite* direct objects:
+***** Negative follows direct objtects
+***** Ich habe ({das/dieses/sein} Buch) nicht finden koenen(definite)
+
+      I have not been able to find
+      the/this/that/his book.
+
+***** Er hat (sie) nicht getroffen (definite pronominal object)
+
+      He didn't meet her
+
+***** Kennst du (ihn) nicht? (definite pronominal)
+
+      Don't you know him?
+
+**** *except* *indefinite* direct objects:
+     Negation is preceding the *indefinite* direct object
+     where indefinteness is marked by {ein/eine}
+***** Er hat nei (ein Buch) gelesen
+
+      He has never read a buch
+
+***** Ich habe nei -> (eine wirklich gute Schere) kaufen koenen
+
+      I have never been able to buy a good pair of scissors
+
+
+
+
+
+*** Negative precedes
+**** *indefinte* direct objects (*do*)
+
+     Negative precedes direct object as long as it is
+     indefinte noun preceded by: (ein) or (viel) or
+     indefinte pronoun: like {etwas,jemand, niemand}
+
+***** Er hat nei <- (ein) Auto gehabt
+
+      He's never had a car
+
+***** Wir werden nicht <- (viel/viele) Sachen mit dem Geld kaufen
+
+      We won't be able to buy much/many things with money
+
+**** Adverbial expressions eg.
+
+***** Ich fahre nicht mit dem Zug, (sondern mit dem Auto)
+      I am not going by train (but by car).
+
+***** Sie will nicht alleine zum Arzt gehen
+
+      She does not want to go to the doctor on her own
+
+**** Adverbial Expression of place:
+***** Ich wohne nicht im achten Stock
+      I don't live on the eighth floor
+***** Sie ist nie in England gewesen
+      She has never been to England
+***** Er hat nicht im Gerten gearbeitet
+      He hasn't been working in the garden
+
+**** Prepositional Objects:
+***** Hast du nei -> (von ihm) gehoert ?
+      Have you never heard of him?
+***** Ich haette neimals -> (an so was) gedacht
+      I would never have thought of such a thing
+***** Ich habe noch nicht -> (an meine Nichte) geschrieben
+      I haven't written to my niece yet
+
+**** Predicative(???) Adjectives:
+***** Die Fensterscheibe ist nicht ->(kaputt)
+      The window pane isn't broken
+***** Ich bin nicht ->(bloed)
+      I am not stupid
+
+**** Any word or phrase which is specifically negated,
+
+***** (Wir) wollen (es) nicht -> (diese Woche machen) (sondern naechste Woche)
+
+***** (Er) hat (im Garten) nicht gearbeitet, sondenr gespielt
+
+      He wasn't working in the garden (but playing) 
+
+***** Nicht -> (der Kanzler hat (das gesagt))
+
+*** Notes on negatives 
+
+****     
+
+
+
+
+  
