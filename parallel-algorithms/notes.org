@@ -230,27 +230,31 @@
    Since the decision tree is unknown at time 
    of computation need to use *heuristics* 
    to ensure proper division.
+
+
+*** Possible value of heuristics:
+    
+**** Amount of Money is <= (2/3)  starting amount.
+**** 
+
    
+
+   /**
    // True when amount of money is less than 
    // or equal to 2/3.
    def moneyThreshold(startingMoney: Int): Threshold
    
    // a/b :- return integer division of a and b
 
-   > runMain reductions.ParallelCountChangeRunner
-   
-   //  
+   > runMain reductions.ParallelCountChangeRunner   
    def combintedThreshold(startingMoney: Int, allCoins: List[Int]): Threshold
-
-   // 
-   def totalCoinsThreshold(totalCoins: Int): Threshold
-   
+   def totalCoinsThreshold(totalCoins: Int): Threshold   
+   */
 
 
+** Parallel Parentheses Balancing
 
-** Parallel Parentheses Balancing:
-
-
+*** 
    
    
       
