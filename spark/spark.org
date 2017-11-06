@@ -1,0 +1,10 @@
+* Apache Spark
+  
+**  SparkConfig
+    
+    Represents a configuration of the application. 
+    Eg. If it is going to be a local or a clustered configuration.
+    
+** SparkContext
+
+   Represents a handle to the Spark Cluster. Can be used to create

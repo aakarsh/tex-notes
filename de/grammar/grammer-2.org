@@ -1,0 +1,46 @@
+* Preliminalry Remarks about german word order
+** World order in statements
+*** subject - inflected verb
+*** inverted word order: element x - inflected verb -- subject
+*** dependent word order : inflected verb stands last
+
+** Word order in Questions
+*** Direct Questions
+*** Indirect Questions
+*** Summary
+
+** The Position of nicht
+*** Normally Accented Negation
+*** Strong Negation of a Particular Element
+*** Using oder and oder nicht
+
+** Themen und Vokabular
+
+* Verbs in Present Tense: The Imperative
+** Verbs in Present Tense
+*** Basic Forms of the Present Tense
+*** Verbes with Stems Ending in -d -t or Consonant Clusters
+*** Verbs with Stems Ending in -s, -ss, -ß, -tz, or -z
+*** Verbs with Stem Vowel Changes
+*** Irregular Conjugation of haben, sein, werden, and wissen
+*** Uses of the Present Tense
+
+** Verbes with Prefixes
+** 
+* Verbs in PAst and Future Tenses
+* Modal Auxiliaries
+* The Nouns
+* der-WORDS and ein-WORDS; Personal Pronouns
+* Prepositions; da-/wo-Compounds : Interrogatives
+* Adjectives
+* Comparision of Adjectives and Adverbs
+* Numerals : Time Expressions 
+* Conjunctions: Infinitive Phrases
+* The Subjunctive Part - I
+* The Subjunctive Part - II
+* der-WRODS and ein-WORDS: As Pronouns :Indefinitive Pronounds: Relative Clauses
+* Reflexives: Reciprocal Pronouns ; Uses of selbst/selber
+* Passive Voice
+* Word-Order Variations
+* Additional Features of German Grammar
+* Appendix

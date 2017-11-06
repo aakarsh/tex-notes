@@ -1,4 +1,32 @@
+* Parallel Fold (Reduce) Operation
+
+*** Fold: Meaning and Properties
+**** Variations of fold
+     Folds vary based on order of combination 
+     and requirement for initial elements.
+     
+***** foldLeft : Combine starting with left most element:
+      List(1,3,8).foldLeft(100)((s,x) => s - x) == (((100 - 1) - 3) - 8)   =  88
+      
+***** foldRight : Combine starting right most element:
+      List(1,3,8).foldRight(100)((s,x) => s - x) ==  (1 - (3 - (8 - 100))) = -94
+
+***** reduceLeft: 
+      List(1,3,8).reduceLeft((s,x) => s - x) == ((1 - 3) - 8) == 
+
+***** reduceRight:
+      List(1,3,8).reduceRight((s,x) => s - x) ==  1 - ( 3 - 8) == 6
+
+
+
+
+
+
+
+
 * Parallel Prefix Sum
+
+
 ** Parallel Scan
 *** Aspects of both map and fold :
     List(1,3,8).scanLeft(100) ((s,x) => s+x)
@@ -139,7 +167,8 @@
 
        // :- reduce whole segment
        if(to - from < threshold) {
-          // :- if under the threshold length
+
+          // if under the threshold length
           // Instead of going to indifidual elements we reduce a whole segment.
           // From serves as the start-element t reduce.
           // This will cause the Leaf to store the reduced sum.
@@ -156,11 +185,9 @@
                                   upsweep(input, mid , to , f))
 
           // compute the function on reductions on both leaves.
-          //
           Node(tL, f(tL.res, tR.res), tR)
        }
     }
-
 
     def downsweep[A](input: Array[A], a0: A,
                      f: (A,A) => A,
@@ -168,9 +195,11 @@
                      out: Array[A]): Unit = t match {
 
         case Leaf(from, to, res) =>
+        
              // do a sequential scan on elements under the threshold
              // boundaries of the scan are stored in the leaf itself
              // lots of fiddly base cases.
+             
              scanLeftSeg(input, from, to, a0, f, out)
 
         case Node(l, _ , r) = {
@@ -210,34 +239,30 @@
 
 ** Parallel counting change:
 
-   Use threshold based agglomeration to
-   limit parallelization  in trivial cases
-   and replace calls to sequential countChange.
+   Use threshold based agglomeration to limit parallelization in
+   trivial cases and replace calls to sequential countChange.
 
    def parCountChange(money: Int,
                       coins: List[Int],
                       threshold: Threshold): Int
 
 
-   Passed the money and coin list determine if
-   we should call the threshold function.
+   Passed the money and coin list determine if we should call the
+   threshold function.
 
    type Threshold = (Int, List[Int]) => Boolean
    
-   Hard to evaluate the amount of work required 
-   to compute the parCountChange function.   
+   Hard to evaluate the amount of work required to compute the
+   parCountChange function.
 
-   Since the decision tree is unknown at time 
-   of computation need to use *heuristics* 
-   to ensure proper division.
+   Since the decision tree is unknown at time of computation need to
+   use *heuristics* to ensure proper division.
 
 
 *** Possible value of heuristics:
     
 **** Amount of Money is <= (2/3)  starting amount.
 **** 
-
-   
 
    /**
    // True when amount of money is less than 
@@ -255,7 +280,6 @@
 ** Parallel Parentheses Balancing
 
 *** 
-   
    
       
 ** Line of Sight:
